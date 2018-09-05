@@ -18,7 +18,7 @@ int main()
 		for(int i = 1; i <= n; ++i){
 			for(int j = 1; j <= m; ++j){
 				if(loc[i][j])
-					up[j] = i;
+					up[j] = i; //第j列中为黑块的行(在1~i行中取最大行标)
 			}
 			for(int j = 1; j <= m; ++j){ //以(i,j)为右下角的矩阵的子矩阵个数
 				int minH = 1<<30; //铜奖矩阵长为K时高最大为多少
