@@ -1,3 +1,6 @@
+/* @ G.cc
+ * 题解: https://blog.csdn.net/Eternally831143/article/details/82597675
+ * */
 #include <bits/stdc++.h>
 typedef long long LL;
 int n,x,y;
