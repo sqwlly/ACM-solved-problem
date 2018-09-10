@@ -1,3 +1,7 @@
+/* @ H.cc 线段树维护两个前缀和
+ * 题解：https://blog.csdn.net/Eternally831143/article/details/82563822
+ *
+ * */
 #include <cstdio>
 typedef long long LL;
 using namespace std;
