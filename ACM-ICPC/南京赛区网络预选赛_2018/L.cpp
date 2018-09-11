@@ -31,7 +31,7 @@ int main() {
         s = 0, t = n - 1;
         for (int i = 0; i <= n; ++i)
             E[i].clear();
-        for (i = 0; i < m; i++) {
+        for (int i = 0; i < m; i++) {
             scanf("%d%d%d", &x, &y, &z);
             x--, y--;
             E[x].push_back(node(y, 0, z));
@@ -49,17 +49,17 @@ int main() {
             int len = E[now.x].size();
             for (int i = 0; i < len; ++i) {
                 node nxt = E[now.x][i];
-                if (dist[now.x][now.k] + nxt.v < dist[nxt.x][now.k]) { //当前层最短路
+                if (dist[now.x][now.k] + nxt.v < dist[nxt.x][now.k]) {
                     dist[nxt.x][now.k] = dist[now.x][now.k] + nxt.v;
                     q.push((node) {nxt.x, now.k, dist[nxt.x][now.k]});
                 }
-                if (dist[now.x][now.k] < dist[nxt.x][now.k + 1] && now.k < k) { //往底下一层
+                if (dist[now.x][now.k] < dist[nxt.x][now.k + 1] && now.k < k) {
                     dist[nxt.x][now.k + 1] = dist[now.x][now.k];
                     q.push((node) {nxt.x, now.k + 1, dist[nxt.x][now.k + 1]});
                 }
             }
         }
-        for (i = 0; i <= k; i++) ans = min(ans, dist[t][i]);
+        for (int i = 0; i <= k; i++) ans = min(ans, dist[t][i]);
         printf("%lld\n", ans);
     }
     return 0;
