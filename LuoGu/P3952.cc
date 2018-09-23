@@ -1,3 +1,6 @@
+/* @ P3952.cc
+ * 题解：https://blog.csdn.net/Eternally831143/article/details/82826610
+ * */
 #include<bits/stdc++.h>
 
 int main() {
