@@ -11,7 +11,7 @@ using namespace std;
 
 int n,L,R,a[52];
 
-int solve()
+void solve()
 {
 	int ret = 0, ter = 0;
 	for(int i = n-1 ; i >= 0; --i){
@@ -42,7 +42,6 @@ int main()
 		puts("-1");
 		return 0;
 	}
-	sort(a,a+n);
 	solve();
     return 0;
 }
