@@ -9,61 +9,36 @@
 
 using namespace std;
 
-int sgn(double x)
-{
-	if(fabs(x) < 1e-8) return 0;
-	if(x < 0) return -1;
-	else return 1;
-}
-
 struct Point{
-	double x,y;
+	int x,y;
 	Point() {}
-	Point(double _x,double _y) { x = _x, y = _y; }
-	void input() { cin>>x>>y; }
-	Point operator - (const Point &b)const{
-		return Point(x - b.x,y - b.y); 
-	}
-
-	double operator ^ (const Point &b)const{
-		return x * b.y - y * b.x;
-	}
-};
-
-struct Line{
-	Point s, e;
-	Line() {}
-	Line(Point _s, Point _e) { s = _s; e = _e; }
-	
-	int lineCrossSeg(Line v){ //不相交
-		int d1 = sgn((e - s) ^ (v.s - s));
-		int d2 = sgn((e - s) ^ (v.e - s));
-		if((d1 ^ d2) == -2) return 2;
-		return (d1 == 0 || d2 == 0);
-	}
-
-	int relation(Point p){
-		int c = sgn((p -s) ^ (e - s));
-		if(c < 0) return 1;
-		else if(c > 0) return 2;
-		else return 3;
-	}
-
-	bool parallel(Line v) {
-		return sgn((e - s) ^ (v.e - v.s)) == 0;
-	}
-
-	// 0 parallel 1 重合 2 相交
-	int lineCrossLine(Line v) {
-		if((*this).parallel(v))
-			return v.relation(s) == 3;
-		return 2;
+	Point(int _x,int _y) { x = _x, y = _y; }
+	bool operator < (const Point & u)const{
+		if(x == u.x) return y < u.y;
+		return x < u.x;
 	}
 };
 
 struct rectangle{
-	Line a, b, c, d;
+	Point p1,p2;
+	int area;
 };
+
+bool vis[301][301];
+
+int ok(rectangle a, rectangle b)
+{
+	if(a.p2.x < b.p1.x || a.p2.y < b.p1.y)
+		return 1;
+	if(b.p2.x < a.p1.x || b.p2.y < a.p1.y)
+		return 1;
+	if(a.p1.x < b.p1.x && a.p1.y < b.p1.y && a.p2.x > b.p2.x && a.p2.y > b.p2.y)
+		return 2;
+	if(b.p1.x < a.p1.x && b.p1.y < a.p1.y && b.p2.x > a.p2.x && b.p2.y > a.p2.y)
+		return 3;
+	return 0;
+		
+}
 
 int main()
 {
@@ -74,22 +49,38 @@ int main()
 	while(cin>>n && n){
 		vector<Point> point;
 		int x,y;
+		memset(vis, 0, sizeof vis);
 		for(int i = 0; i < n; ++i){
 			cin>>x>>y;
+			vis[x][y] = 1;
 			point.push_back(Point{x,y});
 		}
-		vector<Line> line;
-		for(int i = 0; i < n; ++i){
-			for(int j = i + 1; j < n; ++j){
-				Line t = Line{point[i], point[j]};
-				line.push_back(t);
+		sort(point.begin(), point.end());
+		vector<rectangle> rec;
+		for(int i = 0; i < point.size(); ++i){
+			for(int j = i + 1; j < point.size(); ++j){
+				int px = point[j].x, py = point[i].y;
+				if(px > point[i].x && point[j].y > py && vis[px][py] && vis[point[i].x][point[j].y]){
+					Point t1 = {point[i].x, point[i].y};
+					Point t2 = {point[j].x, point[j].y};
+					int area = (point[j].x - point[i].x) * (point[j].y - point[i].y);
+					rec.push_back(rectangle{t1,t2,area});
+				}
 			}
 		}
-		for(int i = 0; i < line.size(); ++i){
-			for(int j = i + 1; j < line.size(); ++j){
-				if()
-			}
+		int ans = -1;
+		for(int i = 0; i < rec.size(); ++i){
+			for(int j = i + 1; j < rec.size(); ++j){
+				if(ok(rec[i],rec[j]) == 1)
+					ans = max(ans, rec[i].area + rec[j].area);
+				else if(ok(rec[i],rec[j]) == 2)
+					ans = max(ans, rec[i].area);
+				else if(ok(rec[i],rec[j]) == 3) 
+					ans = max(ans, rec[j].area);
+			}	
 		}
+		if(~ans) cout<<ans<<endl;
+		else cout<<"imp"<<endl;
 	}
     return 0;
 }
