@@ -9,11 +9,25 @@
 
 using namespace std;
 const int N = 1e6+10;
-int n,m,num[N];
+int n,m,num[N],ret[N];
 
 struct node{
 	int v,l,r;
 }a[N];
+bool ok(int x)
+{
+	int sum = 0;
+	memset(ret,0,sizeof ret);
+	for(int i = 1; i <= x; ++i){
+		ret[a[i].l] -= a[i].v;
+		ret[a[i].r + 1] += a[i].v;
+	}
+	for(int i = 1; i <= n; ++i) {
+		sum += ret[i];
+		if(sum + num[i] < 0) return 0;
+	}
+	return 1;
+}
 
 int main()
 {
@@ -21,14 +35,21 @@ int main()
     freopen("input.in","r",stdin);
 #endif
 	cin>>n>>m;
-	for(int i = 0; i < n; ++i){
+	for(int i = 1; i <= n; ++i){
 		cin>>num[i];
 	}
-	for(int i = 0; i < m; ++i){
+	for(int i = 1; i <= m; ++i){
 		cin>>a[i].v>>a[i].l>>a[i].r;
 	}
-	for(int i = 0; i < m; ++i){
-		
+	int l = 1, r = m, ans = 0;
+	while(l <= r) {
+		int mid = l + (r - l) / 2;
+		if(ok(mid))
+			l = mid + 1;
+		else 
+			r = mid - 1, ans = mid;
 	}
+	if(ans) printf("-1\n%d",ans);
+	else puts("0");
     return 0;
 }
