@@ -8,8 +8,8 @@
 #include<bits/stdc++.h>
 
 using namespace std;
-string str[10010];
-int len[10010];
+map<string,int> vis, cnt;
+map<string,string> str;
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -18,32 +18,33 @@ int main()
 	int n;
 	ios::sync_with_stdio(false);
 	cin>>n;
+	string s;
 	for(int i = 0; i < n; ++i){
-		cin>>str[i];
-		len[i] = str[i].length();
-//		cout<<len[i]<<endl;
+		cin>>s;
+		vis.clear();
+		string ret;
+		for(int i = 0; i < s.length(); ++i){
+			ret = "";
+			for(int j = i; j < s.length(); ++j){
+				ret += s[j];
+				if(vis[ret] == 0) {
+					vis[ret] = 1;
+					cnt[ret]++;
+					str[ret] = s;
+			//		cout<<ret<<endl;
+				}
+			}
+		}
 	}
-//	cout<<"---------"<<endl;
 	int q;
 	cin>>q;
-	string s;
+	string ans;
 	while(q--){
-		cin>>s;
-		int f = 0, cnt = 0;
-		string ret;
-		for(int i = 0; i < n; ++i){
-			f = str[i].find(s);
-			if(f < str[i].length()){
-				cnt++;
-				ret = str[i];
-			}
-//			cout<<str[i].length()<<endl;
-		}
-		cout<<cnt<<' ';
-		if(cnt == 0) {
-			cout<<"-"<<endl;
+		cin>>ans;
+		if(cnt[ans] == 0) {
+			cout<<"0 -"<<endl;
 		}else{
-			cout<<ret<<endl;
+			cout<<cnt[ans]<<' '<<str[ans]<<endl;;
 		}
 	}
     return 0;
