@@ -13,7 +13,7 @@ bool love(LL minH)
 			m--;
 		}
 		if(m <= 0) break;
-		if(plant[i] >= minH) continue;
+		if(plant[i] >= minH) continue; //如果走完这一步已经满足就不需要判断
 
 		if(minH > plant[i]) {
 			LL cnt = 1LL * ceil((minH - plant[i]) * 1.0 / a[i]);
