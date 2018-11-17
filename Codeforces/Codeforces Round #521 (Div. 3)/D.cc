@@ -5,13 +5,14 @@
     > Created Time: 2018年11月16日 星期五 23时52分52秒
  ************************************************************************/
 #include<bits/stdc++.h>
+#define P pair<int,int> 
 using namespace std;
-map<int,int> m;
-int a[100100];
-bool cmp(const pair<int,int> &p1,const pair<int,int> &p2)//要用常数，不然编译错误
+map<int,int> m,cnt;
+int a[200100];
+/*bool cmp(const pair<int,int> &p1,const pair<int,int> &p2)//要用常数，不然编译错误
 {
-	return p1.second>p2.second;
-}
+	return p1.first>p2.first;
+}*/
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -23,46 +24,21 @@ int main()
 		scanf("%d",a + i);
 		m[a[i]]++;
 	}
-	vector<pair<int,int> > arr;
+//	vector<P,vector<P>,greater<P> > arr;
 	vector<int> v;
-	int cnt = 0;
+	priority_queue<P,vector<P> > pq;
 	for(auto t : m) {
-		arr.push_back(t);
+		pq.push({t.second,t.first});
 	}
-	sort(arr.begin(),arr.end(),cmp);
-	for (vector<pair<int,int> >::iterator it=arr.begin();it!=arr.end();++it){
-		int d = it->second, t = 1;
-		cout<<d<<endl;
-		if((it + 1)!= arr.end() && d / (t + 1) >= (it+1)->second) {
-			v.push_back(it->first);
-			cnt++;
-			while(d / (t + 1) >= (it+1)->second){
-				v.push_back(it->first);
-				d /= (t + 1);
-				t++;
-				cnt++;
-			}
-		}else{
-			v.push_back(it->first);
-			cnt++;
-		}
-		if(cnt == k) break;
+	while(v.size() < k) {
+		P t = pq.top();
+		//cout<<t.first<<' '<<t.second<<endl;
+		pq.pop();
+		v.push_back(t.second);
+		cnt[t.second]++;
+		t.first = m[t.second] / (cnt[t.second] + 1);
+		pq.push(t);
 	}
-/*	for(auto it : arr) {
-		int d = it.second, t = 1;
-		if(d / (t + 1) >= k){
-			while(d / (t + 1) >= k) {
-				v.push_back(it.first);
-				d /= (t + 1);
-				t++;
-				k--;
-			}
-		}else{
-			v.push_back(it.first);
-			cnt++;
-		}
-		if(cnt == k) break;
-	}*/
 	for(int i = 0; i < v.size(); ++i) {
 		printf("%d%c",v[i],i==v.size()-1?'\n':' ');
 	}
