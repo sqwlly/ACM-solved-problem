@@ -37,7 +37,7 @@ Matrix mul(Matrix A,Matrix B)  //(a*b)%mod  矩阵乘法
         for (int j = 0; j < MAXN; j++) {
             ans.a[i][j] = 0;
             for (int k = 0; k < MAXN; k++)
-                ans.a[i][j] = (ans.a[i][j] + A.a[i][k] * B.a[k][j]) % mod;
+                ans.a[i][j] = (ans.a[i][j] + A.a[i][k] * B.a[k][j] + mod) % mod;
         }
     return ans;
 }
