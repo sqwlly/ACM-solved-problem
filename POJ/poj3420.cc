@@ -74,7 +74,7 @@ int main()
     //  dp[n - 3] = dp[n - 3]
     while(cin >> n >> mod && (mod + n)) {
         if(n < 4) {
-            cout << dp[n] << endl;
+            cout << dp[n] % mod << endl;
         }else{
             cout << solve(n - 3) << endl;
         }

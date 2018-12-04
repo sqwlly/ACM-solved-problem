@@ -34,7 +34,7 @@ LL solve(LL n)
 		}
 		ans *= (2 * cnt + 1);
 	}
-	if(n > 1) ans *= 3;
+	if(n > 1) ans *= (2 * 1 + 1);
 	return ans / 2 + 1;
 }
 
