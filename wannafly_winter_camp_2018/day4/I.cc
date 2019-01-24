@@ -14,7 +14,7 @@ struct node{
 		if(b == u.b) {
 			return a > u.a;
 		}
-		return b < u.b;
+		return a > u.a;
 	}
 }f[1001];
 long long dp[1010][1010];
@@ -35,13 +35,20 @@ int main()
 	//15 + 45 + 10
 	long long now = 0;
 	for(int i = 1; i <= n; ++i) {
-//		dp[i][i] = dp[i - 1][i - 1] + f[i].a;
+		dp[i][i] = dp[i - 1][i - 1] + f[i].a;
+	}
+	for(int i = 1; i <= n; ++i) {
+		int t = 0;
+		for(int j = 1; j <= n; ++j) {
+			t = max(t, f[j].a);
+		}
+		dp[i][1] = t;
 	}
 	for(int i = 1; i <= n; ++i) {
 		for(int j = 1; j <= i; ++j) {
-			if(dp[i - 1][j - 1] == 0 && j - 1 != 0) continue;
-			long long A = dp[i - 1][j - 1] + f[j].a;
-			long long B = dp[i - 1][j - 1] + f[j].b * (i - 1);
+		//	if(dp[i - 1][j - 1] == 0 && j - 1 != 0) continue;
+			long long A = dp[i][j - 1] + f[j].a;
+			long long B = dp[i][j - 1] + f[j].b * (j - 1);
 			if(A > B)
 				dp[i][j] = A;
 			else
