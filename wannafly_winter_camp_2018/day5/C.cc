@@ -36,6 +36,7 @@ int main()
     for(int i = 0; i < k; ) {
         int cur = pq.top(); pq.pop();
         int nxt = pq.top();
+		if(!nxt | !cur) break;
         int cnt = C(cur,nxt);
         i += cnt;
         pq.push(cur);
