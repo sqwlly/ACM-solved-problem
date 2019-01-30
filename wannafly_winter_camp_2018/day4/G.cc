@@ -9,7 +9,7 @@
 
 using namespace std;
 const int mod = 1e9+7;
-int dp[1010][1010], sum[1010][1010];
+long long dp[1010][1010];
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -17,17 +17,17 @@ int main()
 #endif
 	int n;
 	cin >> n;
-	dp[1][1] = sum[1][1] = 1;
+	dp[1][1] = 1;
 	for(int i = 2; i <= n; ++i) {
 		for(int j = 1; j <= i; ++j) {
 			if(i & 1) {
-				dp[i][j] = (dp[i][j] + sum[i - 1][j - 1]) % mod;
+				dp[i][j] = (dp[i][j - 1] + dp[i - 1][j - 1]) % mod;
 			}else{
-				dp[i][j] = (dp[i][j] + ((sum[i - 1][i - 1] - sum[i - 1][j - 1]) % mod + mod)) % mod;
+				dp[i][j] = (dp[i][j - 1] + dp[i - 1][i - 1] - dp[i - 1][j - 1] + mod) % mod;
 			}
-			sum[i][j] = (dp[i][j] + sum[i][j - 1]) % mod;
 		}
 	}
-	cout << sum[n][n] << endl;
+	cout << dp[n][n] << endl;
     return 0;
 }
+
