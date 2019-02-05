@@ -47,7 +47,7 @@ void _merge(int x,int y)
 			v[t2] -= v[t1];
 			f[t2] = t1;
 			rk[t1]++;
-		}else{
+		else{
 			w[t1] -= w[t2];
 			v[t1] -= v[t2];
 			f[t1] = t2;
