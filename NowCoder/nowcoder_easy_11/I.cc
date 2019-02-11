@@ -28,8 +28,8 @@ using namespace std;
 //0 3 1 2
 typedef long long LL;
 const int N = 1E5+10, mod = 1e9 + 7;
-LL sumA[N],sumB[N],c[N];
 int a[N],b[N];
+LL C[N],A[35][2],B[35][2];
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -43,16 +43,17 @@ int main()
 	for(int i = 1; i <= n; ++i) {
 		scanf("%d",&b[i]);
 	}
-	LL pre = 0, t;
 	for(int i = 1; i <= n; ++i) {
-		c[i] = (c[i - 1] + (a[i] ^ b[i])) % mod;
-		for(int j = 1; j < i; ++j)
-			c[i] += (a[i] ^ b[j])%mod;
-		for(int j = 1; j < i; ++j)
-			c[i] += (b[i] ^ a[j]) % mod;
+		for(int j = 0; j < 31; ++j) {
+			A[j][(a[i] >> j) & 1]++;
+			B[j][(b[i] >> j) & 1]++;
+			LL c = A[j][1] * B[j][0] % mod + A[j][0] * B[j][1] % mod;
+			C[i] += c * (1 << j) % mod;
+			C[i] %= mod;
+		}
 	}
 	for(int i = 1; i <= n; ++i) {
-		printf("%lld%c",c[i],i == n ? '\n' :' ');
+		printf("%lld%c",C[i],i == n ? '\n' :' ');
 	}
     return 0;
 }
