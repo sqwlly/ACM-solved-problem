@@ -1,16 +1,16 @@
 /*************************************************************************
-    > File Name: A.cc
+    > File Name: B.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年02月18日 星期一 23时18分39秒
+    > Created Time: 2019年02月19日 星期二 00时23分45秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
 
 #define DEBUG(x) std::cerr << #x << '=' << x << std::endl
-
+typedef long long LL;
 using namespace std;
-const int N = 1E5+10;
+const int N = 2E5+10;
 int a[N];
 int main()
 {
@@ -18,25 +18,20 @@ int main()
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
-	int ans = 2, cnt = 1, x = 0;
-	double av = 0, sum = 0;
-	for(int i = 1; i <= n; ++i) {
+	int n,m,k;
+	cin >> n >> m >> k;
+	for(int i = 0; i < n; ++i) {
 		cin >> a[i];
-		sum += a[i];
-		if(a[i] == a[i - 1]) {
-			cnt++;
-			if(fabs(sum / cnt - av) < 1e-6) {
-				ans = max(ans,cnt);
-				av = sum / cnt;
-			}
-		}else{
-			cnt = 1;
-			sum = a[i];
-		}
 	}
-	if(ans > n) ans = n;
-	cout << ans << endl;
+	sort(a,a+n);
+	LL sum = 0;
+	if(a[n - 1] == a[n - 2]) {
+		sum = 1LL * m * a[n - 1];
+	}else{
+		LL t1 = m / (k + 1);
+		sum = t1 * a[n - 2]; //12
+		sum += (1LL*m - t1) * a[n - 1];
+	}
+	cout << sum << endl;
     return 0;
 }
