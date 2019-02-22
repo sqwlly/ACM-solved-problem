@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: hdu1754.cc
+    > File Name: hdu1754_.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年02月22日 星期五 00时35分46秒
+    > Created Time: 2019年02月22日 星期五 13时33分52秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -10,6 +10,53 @@
 #define DEBUG(x) std::cerr << #x << '=' << x << std::endl
 
 using namespace std;
+const int N = 2E5+10;
+int tr[N << 2];
+
+void pushup(int rt)
+{
+	tr[rt] = max(tr[rt << 1], tr[rt << 1 | 1]);
+}
+
+void build(int rt,int l,int r)
+{
+	if(l == r) {
+		cin >> tr[rt];
+	//scanf("%d",&tr[rt]);
+		return;
+	}
+	int mid = l + r >> 1;
+	build(rt << 1, l, mid);
+	build(rt << 1 | 1, mid + 1, r);
+	pushup(rt);
+}
+
+int query(int rt,int l,int r,int x,int y)
+{
+	if(l >= x && r <= y) {
+		return tr[rt];
+	}
+	int mid = l + r >> 1, ret = 0;
+	if(x <= mid)
+		ret = max(ret, query(rt << 1, l, mid, x, y));
+	if(y > mid) 
+		ret = max(ret, query(rt << 1 | 1, mid + 1, r, x, y));
+	return ret;
+}
+
+void update(int rt,int l,int r,int x, int y)
+{
+	if(l == r) {
+		tr[rt] = y;
+		return;
+	}
+	int mid = l + r >> 1;
+	if(x <= mid) 
+		update(rt << 1, l, mid, x, y);
+	else 
+		update(rt << 1 | 1, mid + 1, r, x, y);
+	pushup(rt);
+}
 
 int main()
 {
@@ -17,6 +64,21 @@ int main()
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-
+	int n,m,x,y;
+	while(cin >> n >> m) {
+		build(1,1,n);
+//		char s[10] = {0};
+		char c;
+		while(m--) {
+			//scanf("%s %d %d",s,&x,&y);
+			cin >> c >> x >> y;
+			if(c == 'Q') {
+				cout << query(1,1,n,x,y) << endl;
+				//printf("%d\n",query(1,1,n,x,y));
+			}else{
+				update(1,1,n,x,y);
+			}
+		}
+	}
     return 0;
 }
