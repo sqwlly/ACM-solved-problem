@@ -11,7 +11,7 @@
 typedef long long LL;
 using namespace std;
 const int N = 2E5+10;
-int a[N],b[N],n,k;
+LL a[N],b[N],cnt[N],n,k;
 priority_queue<int, vector<int>, greater<int> > pq;
 
 void clear(auto &p)
@@ -22,13 +22,22 @@ void clear(auto &p)
 
 bool ok(LL d) 
 {
-	clear(pq);
-	for(int i = 0; i < n; ++i) pq.push(a[i]);
+	LL dx = k - 1;
+	memset(cnt, 0, sizeof cnt);
+	for(int i = 0; i < n; ++i) {
+		if(b[i] == 0) continue;
+		LL ret = a[i];
+		while(ret < (k - 1) * b[i]) {
+			int t = ret / b[i] + 1;
+			if(t <= k) cnt[t]++;
+			if(dx == 0) return 0;
+			dx--;
+			ret += d;
+		}
+	}
 	for(int i = 1; i <= k; ++i) {
-		LL mx = pq.top();
-		if(mx < 0) return 0;
-		pq.pop();
-		pq.push(mx + d);
+		cnt[i] += cnt[i - 1];
+		if(cnt[i] > i) return 0;
 	}
 	return 1;
 }
@@ -46,14 +55,16 @@ int main()
 	for(int i = 0; i < n; ++i) {
 		cin >> b[i];
 	}
-	LL l = 0, r = LLONG_MAX / 2;
-	while(l < r) {
+	LL l = 0, r = LLONG_MAX / 2, ans = -1;
+	while(l <= r) {
 		LL mid = l + r >> 1;
 		if(ok(mid)) {
 			r = mid - 1;
+			ans = mid;
 		}else{
 			l = mid + 1;
 		}
 	}
+	cout << ans << endl;
     return 0;
 }
