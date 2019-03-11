@@ -11,7 +11,7 @@
 
 using namespace std;
 const int N = 100000+10;
-int a[N];
+int a[N],b[3];
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -22,24 +22,15 @@ int main()
 	cin >> n;
 	for(int i = 0; i < n; ++i) cin >> a[i];
 	
-	int MAXL = 0, L = 0, one = 0, two = 0;
+	int MAXL = 0;
 	for(int i = 0; i < n; ++i) {
-		for(int j = i + 1; j < n; ++j) {
-			if(a[i] == a[j]) {
-				if(a[j] == 1) {
-					one++;
-				}else{
-					two++;
-				}
-			}else{
-				i = j - 1;
-				break;
-			}
+		if(a[i] != a[i - 1]) {
+			b[a[i]] = 1;
+		}else{
+			b[a[i]]++;
 		}
-		if(one == two) {
-			MAXL = max(MAXL, one + two);
-		}
+		MAXL = max(MAXL,min(b[1],b[2]));
 	}
-	cout << MAXL << endl;
+	cout << MAXL * 2 << endl;
     return 0;
 }
