@@ -1,7 +1,7 @@
 /*************************************************************************
     > File Name: I.cc
     > Author: sqwlly
-    > Mail: sqw.lucky@gmail.com 
+    > Mail: sqw.lucky@gmail.com
     > Created Time: 2019年03月09日 星期六 21时52分46秒
  ************************************************************************/
 
@@ -11,24 +11,23 @@
 
 using namespace std;
 const int N = 1E5+10;
-int sum[N],n;
-
-void update(int x,int y)
+int low[N],dfn[N],idx,ret;
+vector<int> E[N];
+stack<int> st;
+void tarjan(int u,int fa)
 {
-	while(x < n) {
-		sum[x] += y;
-		x += x & (-x);
-	}
-}
-
-int query(int x)
-{
-	int ret = 0;
-	while(x > 0) {
-		ret += sum[x];
-		x -= x & (-x);
-	}
-	return ret;
+    low[u] = dfn[u] = ++idx;
+    st.push(u);
+    for(auto v : E[u]) {
+        if(v == fa) continue;
+        if(!dfn[v]) {
+            tarjan(v, u);
+            low[u] = min(low[u], low[v]);
+        }else{
+            low[u] = min(low[u], dfn[v]);
+        }
+        if(low[v] > dfn[u]) ret++;
+    }
 }
 
 int main()
@@ -37,15 +36,15 @@ int main()
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int m,c,l,r;
-	cin >> n >> m;
-	for(int i = 0; i < m; ++i) {
-		cin >> c >> l >> r;
-		if(c == 1) {
-			for(int j = l; j <= n; j += l) update(j, r);
-		}else{
-			cout << query(r) - query(l - 1) << endl;
-		}
-	}
+    int n,m,u,v;
+    cin >> n >> m;
+    for(int i = 0; i < m; ++i) {
+        cin >> u >> v;
+        E[u].push_back(v);
+        E[v].push_back(u);
+    }
+    tarjan(1,0);
+    cout << m - ret << endl;
     return 0;
 }
+
