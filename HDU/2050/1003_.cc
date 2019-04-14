@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: 1001.cc
+    > File Name: 1003_.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年03月16日 星期六 14时11分08秒
+    > Created Time: 2019年04月13日 星期六 21时28分42秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -17,8 +17,13 @@ int main()
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	for(int i = 0; i < 4; ++i) {
-		cout << fixed << setprecision(2) << 1 - 0.25 << endl;
+	int T,n,m,k,a,b,c;
+	cin >> T;
+	while(T--) {
+		cin >> n >> m >> k >> a >> b >> c;
+		int man = n + k;
+		int woman = m + k;
+		
 	}
     return 0;
 }
