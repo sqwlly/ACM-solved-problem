@@ -22,45 +22,21 @@ int main()
 	int n;
 	string s;
 	cin >> n >> s;
-	for(int i = n - 1; i >= 0; --i) {
-		if(s[i] == '?') {
-			q[i] = q[i + 1] + 1;
-		}else{
-			q[i] = q[i + 1];
-		}
-		if(s[i] == ')') {
-			rgt[i] = rgt[i + 1] + 1;
-		}else{
-			rgt[i] = rgt[i + 1];
-		}
-	}
-	int flag = 0, cnt = 0, ok = 1, r = 0, l = 0;
+	int cnt = 0, ok = 1;
 	if(s[0] == ')' || s[n - 1] == '(') return cout << ":(" << endl,0;
-	if(s[0] == '?') s[0] = '(';
-	if(s[n - 1] == '?') s[n - 1] = ')';
-
+	s[0] = '(';  s[n - 1] = ')';
+	for(int i = 1; i < n - 1; ++i) if(s[i] == '(') cnt++;
 	for(int i = 1; i < n - 1; ++i) {
 		if(s[i] == '?') {
-			if(cnt < rgt[n - i - 1]) {
+			if(cnt < (n - 2) / 2) {
 				cnt++;
 				s[i] = '(';
 			}else{
 				s[i] = ')';
-				r++;
 			}
-//			if(q[n - i - 1] < cnt) { //(()())
-//				ok = 0;
-//			}
-		}/*else if(s[i] == '(') {
-			cnt++;
-		}else if(s[i] == ')') { // (((())))
-			r++;
-			if(r >= cnt) {
-				ok = 0;
-			}
-		}*/
+		}
 	}
-	int L = 0, R = 0;
+	//DEBUG(s);
 	for(int i = 0; i < n; ++i) {
 		if(s[i] == '(') {
 			st.push('(');
@@ -72,7 +48,6 @@ int main()
 			if(st.size() == 0 && i < n - 1) ok = 0;
 		}
 	}
-//	DEBUG(st.size());
 	if(ok == 0 || !st.empty()) cout << ":(" << endl;
 	else{
 		cout << s << endl;
