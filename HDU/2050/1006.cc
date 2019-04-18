@@ -8,42 +8,41 @@
 #include<bits/stdc++.h>
 
 #define DEBUG(x) std::cerr << #x << '=' << x << std::endl
-
+typedef long long LL;
 using namespace std;
-const int N = 1024;
-int a[N],b[N],c[N];
-int dp[N][2];
+const int N = 1024, inf = INT_MAX >> 1;
+LL a[N],b[N],c[N],n;
+LL dp[N][N];
+
 int main()
 {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int T,n,C;
+	int T,C;
 	cin >> T;
 	while(T--) {
 		cin >> n >> C;
 		for(int i = 1; i <= n; ++i) {
 			cin >> a[i] >> b[i] >> c[i];
 		}
-		memset(dp,0,sizeof dp);
-		long long TC = C;
+		memset(dp, -0x3f, sizeof dp);
+		dp[0][0] = C;
 		for(int i = 1; i <= n; ++i) {
-			TC = C;
-			for(int j = 1; j <= i; ++j) {
-				if(min(TC,1LL * b[j]) - a[j] > 0) {
-					TC = min(TC,1LL * b[j]);
-					TC -= a[j];
-					dp[i][1] = max(dp[i][1],max(dp[j][0],dp[j][1] + 1));
-					dp[i][0] = max(dp[i][0],max(dp[j][0],dp[j][1] + 1));
-				}else{
-					dp[i][1] = max(dp[i][1],dp[j][0]);
-					dp[i][0] = max(dp[i][0],dp[j][0]);
-				}
-				TC += c[j];
+			for(int j = 0; j <= i; ++j) {
+				LL cur = min(dp[i - 1][j - 1], b[i]);
+				dp[i][j] = max(dp[i - 1][j] + c[i], ((cur - a[i] > 0 )? (cur - a[i] + c[i]) : dp[i][j]));
 			}
 		}
-		cout << max(dp[n][0],dp[n][1]) << endl;
+		int ans = 0;
+		for(int i = n; i >= 0; --i) {
+			if(dp[n][i] > 0) {
+				ans = i;
+				break;
+			}
+		}
+		cout << ans << endl;
 	}
     return 0;
 }
