@@ -4,7 +4,7 @@
     > Mail: sqw.lucky@gmail.com
     > Created Time: 2019年04月22日 星期一 15时18分01秒
  ************************************************************************/
-
+#include<cstdio>
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -15,8 +15,9 @@
 using namespace std;
 const int N = 10100;
 vector<P> E[N];
-int size[N],MAX_SIZE[N],d[N],n,k,rt,S,ans,dx;
+int size[N],MAX_SIZE[N],n,k,rt,S,ans;
 bool vis[N];
+vector<int> dis;
 void dfsCenter(int u,int fa)
 {
     size[u] = 1;  MAX_SIZE[u] = 0;
@@ -35,7 +36,7 @@ void dfsCenter(int u,int fa)
 
 void dfsDis(int u,int fa,int res)
 {
-    d[dx++] = res;
+    dis.push_back(res);
     for(int i = 0; i < E[u].size(); ++i) {
         int w = E[u][i].second;
         int v = E[u][i].first;
@@ -46,12 +47,12 @@ void dfsDis(int u,int fa,int res)
 
 int cal(int u,int x)
 {
-    dx = 0;
-    dfsDis(u,x,0);
-    sort(d, d + dx);
-    int i = 0, j = dx - 1, ret = 0;
+    dis.clear();
+    dfsDis(u,0,x);
+    sort(dis.begin(), dis.end());
+    int i = 0, j = (int)dis.size() - 1, ret = 0;
     while(i < j) {
-        if(d[i] + d[j] <= k) {
+        if(dis[i] + dis[j] <= k) {
             ret += j - i;
             i++;
         }else{
@@ -81,23 +82,23 @@ int main()
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
-    ios::sync_with_stdio(false); cin.tie(0);
+    //ios::sync_with_stdio(false); cin.tie(0);
     int u,v,w;
-    while(cin >> n >> k && (n + k)) {
+    while(scanf("%d%d",&n,&k) == 2) {
+        if(n == 0 && k == 0) break;
         for(int i = 0; i < N; ++i) {
             E[i].clear();
         }
+        memset(vis, 0, sizeof vis);
         for(int i = 0; i < n - 1; ++i) {
-            cin >> u >> v >> w;
+            scanf("%d%d%d",&u,&v,&w);
             E[u].push_back(P(v,w));
             E[v].push_back(P(u,w));
         }
-        S = n;
-        ans = 0;
-        memset(vis, 0, sizeof vis);
-        dfsCenter(1,rt = 0);
+        S = n; ans = 0;
+        dfsCenter(1, rt = 0);
         dfs(rt);
-        cout << ans << endl;
+        printf("%d\n",ans);
     }
     return 0;
 }
