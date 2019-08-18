@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: cf489B.cc
+    > File Name: D1.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月16日 星期五 11时14分35秒
+    > Created Time: 2019年08月18日 星期日 11时41分13秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,26 +33,6 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 1024;
-vector<int> E[N];
-int match[N];
-bool vis[N];
-
-int dfs(int u)
-{
-	for(auto v : E[u]) {
-		if(!vis[v]) {
-			vis[v] = 1;
-			if(match[v] == -1 || dfs(match[v])) {
-				match[v] = u;
-				return 1;
-			}
-		}
-	}
-	return 0;
-}
-
-
 
 
 int main() {
@@ -60,63 +40,25 @@ int main() {
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n,m;
-	cin >> n;
-	/*	匈牙利做法
-	 *	
-	 * */
-	int a[101] = {0},b[101] = {0};
+	string s,t;
+	cin >> s >> t;
+	int n = s.size(), ans = 0;
 	for(int i = 0; i < n; ++i) {
-		cin >> a[i];
-	}
-	cin >> m;
-	for(int i = 0; i < m; ++i) {
-		cin >> b[i];
-	}
-	for(int i = 0; i < n; ++i) {
-		for(int j = 0; j < m; ++j) {
-			if(abs(a[i] - b[j]) <= 1) {
-				E[i + 1].emplace_back(j + 1);
+		for(int j = i + 1; j <= n; ++j) {
+			bool ok = 1;
+			string q = s.substr(0,i) + s.substr(j,n - j);
+		//	dbg(q);
+			int w = 0;
+			for(int k = 0; k < q.length(); ++k) {
+				if(q[k] == t[w] && w < t.length()) {
+					w++;
+				}
+			}
+			if(w == t.length()) {
+				ans = max(ans, j - i);
 			}
 		}
 	}
-	memset(match, -1, sizeof match);
-	int ans = 0;
-	for(int i = 1; i <= n; ++i) {
-		memset(vis, 0, sizeof vis);
-		ans += dfs(i);
-	}
 	cout << ans << endl;
-	/*
-	 *
-	 *  暴力双指针贪心
-	 *
-	int a[101] = {0}, b[101] = {0};
-	for(int i = 0; i < n; ++i) {
-		cin >> a[i];
-	}
-	sort(a, a + n);
-	cin >> m;
-	for(int i = 0; i < m; ++i) {
-		cin >> b[i];
-	}
-	sort(b, b + m);
-	int cnt = 0;
-	//1 2 4 6
-	//1 5 5 7 9
-	//
-	//2 1
-	for(int i = 0, j = 0; i < n && j < m;) {
-		if(abs(a[i] - b[j]) <= 1) {
-			i++,j++;
-			cnt++;
-		}else if(a[i] < b[j]){
-			i++;
-		}else{
-			j++;
-		}
-	}
-	cout << cnt << endl;*/
     return 0;
 }
-

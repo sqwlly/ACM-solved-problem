@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: C.cc
+    > File Name: D2.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月18日 星期日 11时23分54秒
+    > Created Time: 2019年08月18日 星期日 14时58分34秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,29 +33,40 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 4E5+10;
-long long a[N];
+const int N = 2E5+10;
+int L[N], R[N];
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
+	string s,t;
+	cin >> s >> t;
+	int k = 0, n = s.size(), m = t.size();
+	int last, first = -1, ans = 0;
 	for(int i = 0; i < n; ++i) {
-		cin >> a[i];
-	}
-	long long g = a[0];
-	for(int i = 1; i < n; ++i) {
-		g = __gcd(g, a[i]);
-	}
-	int cnt = 0;
-	for(long long i = 1; i * i <= g; ++i) {
-		if(g % i == 0) {
-			cnt += 2;
+		if(s[i] == t[k] && k < m) {
+			L[k] = i;
+			k++;
+		}else if(k == m) {
+			break;
 		}
-		if(i * i == g) cnt--;
 	}
-	cout << cnt << endl;
+	k = m - 1; first = -1;
+	for(int i = n - 1; i >= 0; --i) {
+		if(s[i] == t[k] && k >= 0) {
+			R[k] = i;
+			k--;
+		}else if(k == -1) {
+			break;
+		}
+	}//01234   
+	// aabac
+	// ac
+	ans = max(R[0], n - L[m - 1] - 1);
+	for(int i = 1; i < m; ++i) {
+		ans = max(ans, R[i] - L[i - 1] - 1);
+	}
+	cout << ans << endl;
     return 0;
 }

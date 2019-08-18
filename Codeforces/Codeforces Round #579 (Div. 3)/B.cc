@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: C.cc
+    > File Name: B.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月18日 星期日 11时23分54秒
+    > Created Time: 2019年08月18日 星期日 11时09分22秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,29 +33,45 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 4E5+10;
-long long a[N];
+
+
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
-	for(int i = 0; i < n; ++i) {
-		cin >> a[i];
-	}
-	long long g = a[0];
-	for(int i = 1; i < n; ++i) {
-		g = __gcd(g, a[i]);
-	}
-	int cnt = 0;
-	for(long long i = 1; i * i <= g; ++i) {
-		if(g % i == 0) {
-			cnt += 2;
+	int q,n;
+	cin >> q;
+	while(q--) {
+		cin >> n;
+		n *= 4;
+		int x,a[500] = {0},cnt[10100] = {0};
+		for(int i = 0; i < n; ++i) {
+			cin >> x;
+			cnt[x]++;
+			a[i] = x;
 		}
-		if(i * i == g) cnt--;
+		sort(a, a + n);
+		bool ok = 1;
+
+		for(int i = 0; i < n; ++i) {
+			if(cnt[a[i]] & 1) {
+				ok = 0;
+				break;
+			}
+		}	
+		if(!ok) {
+			cout << "NO" << endl;
+			continue;
+		}
+		int ret = a[0] * a[n - 1];
+		for(int i = 1; i < n - 1; ++i) {
+			if(a[i] * a[n - i - 1] != ret) {
+				ok = 0;
+				break;
+			}
+		}
+		cout << (ok ? "YES" : "NO") << endl;
 	}
-	cout << cnt << endl;
     return 0;
 }

@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: C.cc
+    > File Name: J.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月18日 星期日 11时23分54秒
+    > Created Time: 2019年08月17日 星期六 12时10分02秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,29 +33,21 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 4E5+10;
-long long a[N];
+
+//
+// 
+//	1 2 3 4 5 6
+//
+//
+//	
+//
+
+
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
-	for(int i = 0; i < n; ++i) {
-		cin >> a[i];
-	}
-	long long g = a[0];
-	for(int i = 1; i < n; ++i) {
-		g = __gcd(g, a[i]);
-	}
-	int cnt = 0;
-	for(long long i = 1; i * i <= g; ++i) {
-		if(g % i == 0) {
-			cnt += 2;
-		}
-		if(i * i == g) cnt--;
-	}
-	cout << cnt << endl;
+
     return 0;
 }
