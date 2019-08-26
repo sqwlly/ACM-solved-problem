@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: B.cc
+    > File Name: L1.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月19日 星期一 21时04分03秒
+    > Created Time: 2019年08月25日 星期日 10时22分03秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,41 +33,22 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-typedef long long LL;
 
-string a("COFFEE"), b("CHICKEN");
-
-LL size[70];
-
-char solve(int n,LL k)
-{
-	if(n == 1) {
-		if(k <= 6) return a[k - 1];
-		else return ' ';
-	}else if(n == 2) {
-		if(k <= 7) return b[k - 1];
-		else return ' ';
-	}
-	if(k <= size[n - 2]) return solve(n - 2, k);
-	else return solve(n - 1, k - size[n - 2]);
-}
 
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int T,n; LL k;
-	size[1] = 6; size[2] = 7;
-	for(int i = 3; i <= 60; ++i) size[i] = size[i - 1] + size[i - 2];
+	int T;
 	cin >> T;
 	while(T--) {
-		cin >> n >> k;
-		if(n > 60) n = 60;
-		for(LL d = k; d < k + 10; ++d) {
-			if(d <= size[n]) cout << solve(n, d);
+		cin >> n >> m;
+		for(int i = 1; i <= n; ++i) {
+			for(int j = 1; j <= m; ++j) {
+				cin >> a[i][j];
+			}
 		}
-		cout << endl;
 	}
     return 0;
 }

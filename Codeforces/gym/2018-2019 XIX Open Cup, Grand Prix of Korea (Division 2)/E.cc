@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: B.cc
+    > File Name: E.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月19日 星期一 21时04分03秒
+    > Created Time: 2019年08月24日 星期六 10时10分34秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -34,22 +34,21 @@ void err(T a, Args... args)
 }
 /****************************************************************************************************/
 typedef long long LL;
-
-string a("COFFEE"), b("CHICKEN");
-
-LL size[70];
-
-char solve(int n,LL k)
+const LL MAX = 1E12;
+void solve(LL a,LL b,LL c,LL d)
 {
-	if(n == 1) {
-		if(k <= 6) return a[k - 1];
-		else return ' ';
-	}else if(n == 2) {
-		if(k <= 7) return b[k - 1];
-		else return ' ';
+	LL cnt = 0;
+	for(int i = 1; i < 1000; ++i) {
+		for(int j = 1; j < 1000; ++j) {
+			if(__gcd(i,j) == 1 && (i + j) < 1000) {
+				LL x = (LL)ceil(1.0 * a / i), y = (LL)floor(1.0 * b / i), l = (LL)ceil(1.0 * c / j), r = (LL)floor(1.0 * d / j);
+				LL X = max(x, l);
+				LL Y = min(y, r);
+				if(X <= Y) cnt += Y - X + 1;
+			}
+		}
 	}
-	if(k <= size[n - 2]) return solve(n - 2, k);
-	else return solve(n - 1, k - size[n - 2]);
+	cout << cnt << endl;
 }
 
 int main() {
@@ -57,17 +56,8 @@ int main() {
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int T,n; LL k;
-	size[1] = 6; size[2] = 7;
-	for(int i = 3; i <= 60; ++i) size[i] = size[i - 1] + size[i - 2];
-	cin >> T;
-	while(T--) {
-		cin >> n >> k;
-		if(n > 60) n = 60;
-		for(LL d = k; d < k + 10; ++d) {
-			if(d <= size[n]) cout << solve(n, d);
-		}
-		cout << endl;
-	}
+	LL A,B,C,D;
+	cin >> A >> B >> C >> D;
+	solve(A,B,C,D);
     return 0;
 }

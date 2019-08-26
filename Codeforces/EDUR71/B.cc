@@ -2,7 +2,7 @@
     > File Name: B.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月19日 星期一 21时04分03秒
+    > Created Time: 2019年08月23日 星期五 09时33分06秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,41 +33,39 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-typedef long long LL;
-
-string a("COFFEE"), b("CHICKEN");
-
-LL size[70];
-
-char solve(int n,LL k)
-{
-	if(n == 1) {
-		if(k <= 6) return a[k - 1];
-		else return ' ';
-	}else if(n == 2) {
-		if(k <= 7) return b[k - 1];
-		else return ' ';
-	}
-	if(k <= size[n - 2]) return solve(n - 2, k);
-	else return solve(n - 1, k - size[n - 2]);
-}
+int a[100][100],b[100][100];
 
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int T,n; LL k;
-	size[1] = 6; size[2] = 7;
-	for(int i = 3; i <= 60; ++i) size[i] = size[i - 1] + size[i - 2];
-	cin >> T;
-	while(T--) {
-		cin >> n >> k;
-		if(n > 60) n = 60;
-		for(LL d = k; d < k + 10; ++d) {
-			if(d <= size[n]) cout << solve(n, d);
+	int n,m;
+	cin >> n >> m;
+	for(int i = 0; i < n; ++i) {
+		for(int j = 0; j < m; ++j) {
+			cin >> a[i][j];
 		}
-		cout << endl;
 	}
-    return 0;
+	vector<pair<int,int>> v;
+	for(int i = 0; i < n; ++i) {
+		for(int j = 0; j < m; ++j) {
+			if(a[i][j] == 1 && a[i + 1][j] == 1 && a[i][j + 1] == 1 && a[i + 1][j + 1] == 1) {
+				v.push_back(make_pair(i,j));
+				b[i][j] = b[i + 1][j] = b[i][j + 1] = b[i + 1][j + 1] = 1;
+			}
+		}
+	}
+	bool ok = 1;
+	for(int i = 0; i < n; ++i) {
+		for(int j = 0; j < m; ++j) {
+			if(a[i][j] != b[i][j]) ok = 0;
+		}
+	}
+	if(ok == 0) return cout << -1,0;
+	cout << v.size() << endl;
+	for(int i = 0; i < v.size(); ++i) {
+		cout << v[i].first + 1 << ' ' << v[i].second + 1 << endl;
+	}
+	return 0;
 }

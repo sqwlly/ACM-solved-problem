@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: B.cc
+    > File Name: C.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月19日 星期一 21时04分03秒
+    > Created Time: 2019年08月23日 星期五 09时58分26秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -35,39 +35,39 @@ void err(T a, Args... args)
 /****************************************************************************************************/
 typedef long long LL;
 
-string a("COFFEE"), b("CHICKEN");
-
-LL size[70];
-
-char solve(int n,LL k)
-{
-	if(n == 1) {
-		if(k <= 6) return a[k - 1];
-		else return ' ';
-	}else if(n == 2) {
-		if(k <= 7) return b[k - 1];
-		else return ' ';
-	}
-	if(k <= size[n - 2]) return solve(n - 2, k);
-	else return solve(n - 1, k - size[n - 2]);
-}
-
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int T,n; LL k;
-	size[1] = 6; size[2] = 7;
-	for(int i = 3; i <= 60; ++i) size[i] = size[i - 1] + size[i - 2];
+	int T,n,a,b;
+	string s;
 	cin >> T;
 	while(T--) {
-		cin >> n >> k;
-		if(n > 60) n = 60;
-		for(LL d = k; d < k + 10; ++d) {
-			if(d <= size[n]) cout << solve(n, d);
+		cin >> n >> a >> b >> s;
+		s += '0';
+		bool start = 0;
+		LL ans = b;
+		for(int i = 0; i < n; ++i) {
+			ans += b + a;
+			if(s[i + 1] == '1' || (s[i] == '1'  && s[i + 1] == '0' && s[i + 2] == '1')){ 
+				ans += b;
+				if(start == 0) {
+					ans += a, start = 1;
+			//		dbg(start);
+				}
+			//	dbg(ans,i,s[i]);
+			} else {
+				if(start == 1) {
+					ans += a + b;
+					if(a == b && i != n - 2) ans -= a;
+				}
+			//	dbg(ans,i,s[i]);
+				start = 0;
+			//	dbg(start);
+			}
 		}
-		cout << endl;
+		cout << ans << endl;
 	}
     return 0;
 }
