@@ -1,102 +1,96 @@
 /*************************************************************************
-    > File Name: F.cc
-    > Author: sqwlly
-    > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年08月29日 星期四 12时30分35秒
+  > File Name: F.cc
+  > Author: sqwlly
+  > Mail: sqw.lucky@gmail.com 
+  > Created Time: 2019年08月29日 星期四 12时30分35秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
 using namespace std;
 #ifndef ONLINE_JUDGE
 #define dbg(args...)                                   \
-    do{                                                \
-	        cout << "\033[32;1m" << #args << " -> ";   \
-         err(args);                                    \
-      } while(0)                                       
+	do{                                                \
+		cout << "\033[32;1m" << #args << " -> ";   \
+		err(args);                                    \
+	} while(0)                                       
 #else
 #define dbg(...)
 #endif
 void err()
 {
-    cout << "\033[39;0m" << endl;
+	cout << "\033[39;0m" << endl;
 }
-template <template <typename...> class T, typename t, typename... Args>
+	template <template <typename...> class T, typename t, typename... Args>
 void err(T<t> a, Args... args)
 {
-    for (auto x : a) cout << x << ' ';
-    err(args...);
+	for (auto x : a) cout << x << ' ';
+	err(args...);
 }
-template <typename T, typename... Args>
+	template <typename T, typename... Args>
 void err(T a, Args... args)
 {
-    cout << a << ' ';
-    err(args...);
+	cout << a << ' ';
+	err(args...);
 }
 /****************************************************************************************************/
-const int N = 1024;
+const int N = 1024, M = 1E5+10;
 struct node{
 	int l,r,w,id;
 	bool operator < (const node &u) const{
-		if(w == u.w) {
-			if(r == u.r) return l < u.l;
-			return r < u.r;
-		}else{
-			return w > u.w;
-		}
+		if(r == u.r) return l < u.l;
+		return r < u.r;
 	}
 };
 
-vector<node> v[20],g;
-int dp[20][N];
+vector<node> g;
+vector<int> foo;
+int dp[N][1 << 11], Max[1 << 11][M];
 int main() {
 #ifndef ONLINE_JUDGE
-    freopen("input.in","r",stdin);
+	freopen("input.in","r",stdin);
 #endif
-    ios::sync_with_stdio(false); cin.tie(0);
+	ios::sync_with_stdio(false); cin.tie(0);
 	int n,k,l,r,w;
 	cin >> n;
 	for(int i = 0; i < n; ++i) {
 		cin >> k;
 		for(int j = 0; j < k; ++j) {
 			cin >> l >> r >> w;
-			v[i].push_back(node{l,r,w,i});
 			g.push_back(node{l,r,w,i});
+			foo.emplace_back(l);
+			foo.emplace_back(r);
 		}
-		sort(v[i].begin(), v[i].end());
 	}
 	sort(g.begin(), g.end());
-	for(int i = 0; i < n; ++i) {
-		for(auto j : v[i]){
-			bool ok = 0;
-			for(int k = 0; k < n; ++k) {
-				if(i != k) {
-					for(auto c : v[k]) {
-						if(max(j.l,c.l) >= min(j.r,c.r)) {
-							ok = 0;
-						}
-					}
-				}
+	sort(foo.begin(), foo.end());
+	foo.resize(distance(foo.begin(),unique(foo.begin(),foo.end())));
+	int ic = 1, ans = 0;
+	for(int k = 0; k < g.size(); ++k) {
+		node i = g[k];
+		i.l = distance(foo.begin(),lower_bound(foo.begin(),foo.end(),i.l));
+		i.r = distance(foo.begin(),lower_bound(foo.begin(),foo.end(),i.r));
+		while(ic <= i.l) {
+			for(int j = 1; j < (1 << n); ++j) {
+				Max[j][ic] = max(Max[j][ic - 1],Max[j][ic]);	
 			}
+			ic++;
 		}
-
-		for(int j = 0; j < n; ++j) {
-			if(i != j) {
-				for(int k = 0; k < v[j].size(); ++k)
+		int s = i.id, x = i.l, y = i.r, w = i.w;
+		dp[k][1 << s] = w;
+		Max[1 << s][y] = max(Max[1 << s][y], w);
+		for(int j = 1; j < (1 << n); ++j) {
+			if(Max[j][x]) {
+				dp[k][j | 1 << s] = max(dp[k][j | 1 << s], Max[j][x] + w);
 			}
+		
 		}
-	}
-	for(int i = 0; i < g.size(); ++i) {
-		for(int j = 0; j <)
-	}
-	
-	long long ans = 0;
-	for(int cnt = 0; cnt < 1001; ++cnt) {
-		int last = 0;
-		for(int i = 0; i < n; ++i) {
-			for(auto j : v[i]) {
-				if(j.l > last)
-			}
+		for(int j = 1; j < (1 << n); ++j) {
+			if(dp[k][j])
+				Max[j][y] = max(Max[j][y],dp[k][j]);
 		}
+		ans = max(dp[k][(1 << n) - 1], ans);
 	}
-    return 0;
+	if(ans == 0) ans = -1;
+	cout << ans << '\n';
+	return 0;
 }

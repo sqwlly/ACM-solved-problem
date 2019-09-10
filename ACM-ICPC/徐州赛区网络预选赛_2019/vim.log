@@ -1,0 +1,115 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.012  000.012: --- VIM STARTING ---
+000.259  000.247: Allocated generic buffers
+000.430  000.171: locale set
+000.445  000.015: GUI prepared
+000.454  000.009: clipboard setup
+000.461  000.007: window checked
+002.626  002.165: inits 1
+002.692  000.066: parsing arguments
+002.695  000.003: expanding arguments
+002.742  000.047: shell init
+012.076  009.334: xsmp init
+012.541  000.465: Termcap init
+012.624  000.083: inits 2
+012.976  000.352: init highlight
+017.116  002.748  002.748: sourcing /usr/share/vim/vim81/syntax/syncolor.vim
+017.649  003.414  000.666: sourcing /usr/share/vim/vim81/syntax/synload.vim
+029.285  011.291  011.291: sourcing /usr/share/vim/vim81/filetype.vim
+029.322  015.386  000.681: sourcing /usr/share/vim/vim81/syntax/syntax.vim
+029.343  015.658  000.272: sourcing $VIM/vimrc
+030.014  000.433  000.433: sourcing /usr/share/vim/vim81/ftoff.vim
+030.716  000.222  000.222: sourcing /home/sqwlly/.vim/bundle/Vundle.vim/autoload/vundle.vim
+030.942  000.144  000.144: sourcing /home/sqwlly/.vim/bundle/Vundle.vim/autoload/vundle/config.vim
+042.618  000.014  000.014: sourcing /home/sqwlly/.vim/bundle/vim-fugitive/ftdetect/fugitive.vim
+042.768  010.556  010.542: sourcing /usr/share/vim/vim81/filetype.vim
+042.882  000.033  000.033: sourcing /usr/share/vim/vim81/ftplugin.vim
+042.992  000.027  000.027: sourcing /usr/share/vim/vim81/indent.vim
+043.507  000.012  000.012: sourcing /usr/share/vim/vim81/filetype.vim
+043.611  000.009  000.009: sourcing /usr/share/vim/vim81/ftplugin.vim
+044.029  000.301  000.301: sourcing /usr/share/vim/vim81/syntax/nosyntax.vim
+044.302  000.144  000.144: sourcing /usr/share/vim/vim81/syntax/syncolor.vim
+044.409  000.318  000.174: sourcing /usr/share/vim/vim81/syntax/synload.vim
+044.432  000.743  000.124: sourcing /usr/share/vim/vim81/syntax/syntax.vim
+044.738  000.138  000.138: sourcing /usr/share/vim/vim81/syntax/syncolor.vim
+045.248  000.132  000.132: sourcing /usr/share/vim/vim81/syntax/syncolor.vim
+045.516  000.131  000.131: sourcing /usr/share/vim/vim81/syntax/syncolor.vim
+057.460  012.519  012.256: sourcing /home/sqwlly/.vim/bundle/gruvbox/colors/gruvbox.vim
+057.853  000.014  000.014: sourcing /usr/share/vim/vim81/filetype.vim
+057.962  000.008  000.008: sourcing /usr/share/vim/vim81/ftplugin.vim
+059.098  000.025  000.025: sourcing /usr/share/vim/vim81/filetype.vim
+059.250  000.016  000.016: sourcing /usr/share/vim/vim81/filetype.vim
+059.344  000.008  000.008: sourcing /usr/share/vim/vim81/ftplugin.vim
+059.433  000.007  000.007: sourcing /usr/share/vim/vim81/filetype.vim
+059.521  000.008  000.008: sourcing /usr/share/vim/vim81/indent.vim
+059.756  000.010  000.010: sourcing /usr/share/vim/vim81/filetype.vim
+059.858  000.008  000.008: sourcing /usr/share/vim/vim81/ftplugin.vim
+059.957  000.008  000.008: sourcing /usr/share/vim/vim81/indent.vim
+060.184  030.716  005.768: sourcing $HOME/.vimrc
+060.187  000.837: sourcing vimrc file(s)
+060.435  000.065  000.065: sourcing /home/sqwlly/.vim/plugin/neocomplete/buffer.vim
+060.487  000.038  000.038: sourcing /home/sqwlly/.vim/plugin/neocomplete/dictionary.vim
+060.536  000.036  000.036: sourcing /home/sqwlly/.vim/plugin/neocomplete/member.vim
+060.580  000.032  000.032: sourcing /home/sqwlly/.vim/plugin/neocomplete/tag.vim
+060.678  000.085  000.085: sourcing /home/sqwlly/.vim/plugin/neocomplete.vim
+061.139  000.121  000.121: sourcing /home/sqwlly/.vim/bundle/nerdtree/autoload/nerdtree.vim
+062.012  000.360  000.360: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/path.vim
+062.160  000.119  000.119: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/menu_controller.vim
+062.241  000.053  000.053: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/menu_item.vim
+062.344  000.078  000.078: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/key_map.vim
+062.535  000.165  000.165: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/bookmark.vim
+062.759  000.196  000.196: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/tree_file_node.vim
+063.155  000.350  000.350: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/tree_dir_node.vim
+063.352  000.169  000.169: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/opener.vim
+063.601  000.215  000.215: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/creator.vim
+063.689  000.052  000.052: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/flag_set.vim
+063.822  000.104  000.104: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/nerdtree.vim
+064.071  000.222  000.222: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/ui.vim
+064.112  000.016  000.016: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/event.vim
+064.162  000.027  000.027: sourcing /home/sqwlly/.vim/bundle/nerdtree/lib/nerdtree/notifier.vim
+064.504  000.312  000.312: sourcing /home/sqwlly/.vim/bundle/nerdtree/autoload/nerdtree/ui_glue.vim
+068.790  000.322  000.322: sourcing /home/sqwlly/.vim/bundle/nerdtree/nerdtree_plugin/exec_menuitem.vim
+069.551  000.665  000.665: sourcing /home/sqwlly/.vim/bundle/nerdtree/nerdtree_plugin/fs_menu.vim
+069.619  000.039  000.039: sourcing /home/sqwlly/.vim/bundle/nerdtree/nerdtree_plugin/vcs.vim
+069.848  009.123  005.538: sourcing /home/sqwlly/.vim/bundle/nerdtree/plugin/NERD_tree.vim
+070.461  000.539  000.539: sourcing /home/sqwlly/.vim/bundle/vim-fugitive/plugin/fugitive.vim
+071.053  000.400  000.400: sourcing /home/sqwlly/.vim/bundle/L9/autoload/l9.vim
+071.267  000.693  000.293: sourcing /home/sqwlly/.vim/bundle/L9/plugin/l9.vim
+071.569  000.042  000.042: sourcing /home/sqwlly/.vim/bundle/command-t/autoload/commandt/mirkwood.vim
+071.905  000.516  000.474: sourcing /home/sqwlly/.vim/bundle/command-t/plugin/command-t.vim
+073.017  000.368  000.368: sourcing /home/sqwlly/.vim/bundle/ctrlp.vim/autoload/ctrlp/mrufiles.vim
+073.652  001.595  001.227: sourcing /home/sqwlly/.vim/bundle/ctrlp.vim/plugin/ctrlp.vim
+073.991  000.093  000.093: sourcing /usr/share/vim/vim81/plugin/getscriptPlugin.vim
+074.347  000.339  000.339: sourcing /usr/share/vim/vim81/plugin/gzip.vim
+074.574  000.211  000.211: sourcing /usr/share/vim/vim81/plugin/logiPat.vim
+074.620  000.031  000.031: sourcing /usr/share/vim/vim81/plugin/manpager.vim
+074.801  000.169  000.169: sourcing /usr/share/vim/vim81/plugin/matchparen.vim
+075.378  000.561  000.561: sourcing /usr/share/vim/vim81/plugin/netrwPlugin.vim
+075.448  000.043  000.043: sourcing /usr/share/vim/vim81/plugin/rrhelper.vim
+075.502  000.029  000.029: sourcing /usr/share/vim/vim81/plugin/spellfile.vim
+075.672  000.152  000.152: sourcing /usr/share/vim/vim81/plugin/tarPlugin.vim
+075.776  000.082  000.082: sourcing /usr/share/vim/vim81/plugin/tohtml.vim
+075.968  000.174  000.174: sourcing /usr/share/vim/vim81/plugin/vimballPlugin.vim
+076.156  000.162  000.162: sourcing /usr/share/vim/vim81/plugin/zipPlugin.vim
+076.177  001.222: loading plugins
+076.234  000.057: loading packages
+076.369  000.135: loading after plugins
+076.388  000.019: inits 3
+076.395  000.007: reading viminfo
+077.974  001.579: setup clipboard
+077.991  000.017: setting raw mode
+077.998  000.007: start termcap
+078.017  000.019: clearing screen
+078.452  000.435: opening buffers
+078.553  000.101: BufEnter autocommands
+078.554  000.001: editing files in windows
+088.698  009.470  009.470: sourcing /home/sqwlly/.vim/bundle/vim-fugitive/autoload/fugitive.vim
+091.967  003.943: VimEnter autocommands
+091.971  000.004: before starting main loop
+092.350  000.379: first screen update
+092.352  000.002: --- VIM STARTED ---
