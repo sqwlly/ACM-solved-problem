@@ -38,14 +38,7 @@ struct line
     line(point _s, point _e) { s = _s, e = _e; }
 };
 double dist(point a, point b) { return sqrt((a - b) * (a - b)); }
-double xmult(point p0,point p1,point p2) //p0p1 X p0p2
-{
-    return (p1-p0)^(p2-p0);
-}
-bool Seg_inter_line(line l1,line l2) //判断直线l1和线段l2是否相交
-{
-    return sgn(xmult(l2.s,l1.s,l1.e))*sgn(xmult(l2.e,l1.s,l1.e)) <= 0;
-}
+
 //l1是直线，l2是线段
 bool segxline(line l1, line l2)
 {
@@ -54,26 +47,23 @@ bool segxline(line l1, line l2)
 
 bool check(const vector<line> &v, line c)
 {
-    if(sgn(dist(c.s,c.e)) == 0) return 0;
+	if(c.s == c.e) return 0;
     for(int i = 0; i < v.size(); ++i) {
-        if(!Seg_inter_line(c, v[i])) return 0; 
+		if(segxline(c, v[i]) == 0) return 0; 
     }
     return 1;
 }
 
-bool solve(const vector<line> &lines)
+bool solve(const vector<line> &v)
 {
-    for(int i = 0; i < lines.size(); ++i) {
-        for(int j = 0; j < lines.size(); ++j) {
-            if(check(lines,{lines[i].s,lines[j].s}) || check(lines,{lines[i].s,lines[j].e}) || check(lines,{lines[i].e,lines[j].s}) || check(lines,{lines[i].e,lines[j].e})) {
-                return 1;
-            }
-            /*vector<line> v = {line(lines[i].s, lines[j].s),line(lines[i].s, lines[j].e),line(lines[i].e, lines[j].s),line(lines[i].e, lines[j].e)};
-            for(int c = 0; c < v.size(); ++c) {
-                if(check(lines, v[c])) {
+    for(int i = 0; i < v.size(); ++i) {
+        for(int j = 0; j < v.size(); ++j) {
+			line t[] = {{v[i].s, v[j].s}, {v[i].s, v[j].e}, {v[i].e, v[j].s}, {v[i].e, v[j].e}};
+            for(int c = 0; c < 4; ++c) {
+				if(check(v, t[c])) {
                     return 1;
                 }
-            }*/
+            }
         }
     }
     return 0;
@@ -90,9 +80,9 @@ int main()
         double a,b,c,d;
         for(int i = 0; i < n; ++i) {
             cin >> a >> b >> c >> d;
-            lines.push_back({(a,b),(c,d)});
+            lines.push_back({{a,b},{c,d}});
         }
-        cout << (solve(lines) ? "Yes" : "No") << '\n';
+        cout << (solve(lines) ? "Yes!" : "No!") << '\n';
         lines.clear();
     }
     return 0;
