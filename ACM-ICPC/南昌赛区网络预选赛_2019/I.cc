@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: E.cc
+    > File Name: I.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年09月16日 星期一 12时26分17秒
+    > Created Time: 2019年10月08日 星期二 18时25分20秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,46 +33,36 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 4E5+10;
-typedef long long LL;
-LL a[N],cnt[N], cst[21][21],dp[1 << 21];
-vector<int> pos[21];
+int dp[200][200][2];
+
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i];
-		pos[a[i]].emplace_back(i);
-	}
-	for(int i = 1; i <= 20; ++i) {
-		for(int j = 1; j <= 20; ++j) {
-			if(i == j) continue;
-			for(int k = 0; k < pos[i].size(); ++k) {
-				if(pos[j].size() == 0 || pos[j][0] > pos[i][k]) continue;
-				cst[i][j] += lower_bound(pos[j].begin(), pos[j].end(), pos[i][k]) - pos[j].begin();
+	int n1,n2,k1,k2;
+	cin >> n1 >> n2 >> k1 >> k2;
+	dp[0][0] = 1;
+	int ans = 0;
+	for(int i = 1; i <= n1; ++i) {
+		for(int j = 1; j <= n2; ++j) {
+			for(int k = 0; k < 2; ++k) {
+				dp[i][j][k] = dp[]
 			}
+			if(i <= k1) {
+				dp[i][j] += dp[i - 1][j];
+			}
+			if(j <= k2) {
+				dp[i][j] += dp[i][j - 1];
+			}
+			if(i <= k1 && j <= k2) dp[i][j] += dp[i - 1][j - 1];
 		}
 	}
-	LL S = 1 << 20, c = 0;
-	for(int i = 0; i < S; ++i) dp[i] = LLONG_MAX >> 1;
-	dp[0] = 0;
-	for(int s = 0; s < S; ++s) {
-		for(int i = 0; i < 20; ++i) {
-			if(!((s >> i) & 1)) {
-				c = 0;
-				for(int j = 0; j < 20; ++j) {
-					if((s >> j) & 1) {
-						c += cst[i + 1][j + 1];			
-					}
-				}
-				dp[s | 1 << i] = min(dp[s | 1 << i], dp[s] + c);
-			}
+	for(int i = 0; i <= n1; ++i) {
+		for(int j = 0; j <= n2; ++j) {
+			ans += dp[i][j];
 		}
 	}
-	cout << dp[S - 1] << endl;
+	cout << ans << '\n';
     return 0;
 }

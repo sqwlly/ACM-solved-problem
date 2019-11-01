@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: E.cc
+    > File Name: D.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年09月16日 星期一 12时26分17秒
+    > Created Time: 2019年10月20日 星期日 10时09分36秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,46 +33,31 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 4E5+10;
-typedef long long LL;
-LL a[N],cnt[N], cst[21][21],dp[1 << 21];
-vector<int> pos[21];
+
+
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i];
-		pos[a[i]].emplace_back(i);
-	}
-	for(int i = 1; i <= 20; ++i) {
-		for(int j = 1; j <= 20; ++j) {
-			if(i == j) continue;
-			for(int k = 0; k < pos[i].size(); ++k) {
-				if(pos[j].size() == 0 || pos[j][0] > pos[i][k]) continue;
-				cst[i][j] += lower_bound(pos[j].begin(), pos[j].end(), pos[i][k]) - pos[j].begin();
-			}
+	int T,n,m;
+	cin >> T;
+	while(T--) {
+		cin >> n >> m;
+		long long x = 0, y = 0, v;
+		for(int i = 0; i < n; ++i) {
+			cin >> v;
+			x += v;
+		}
+		for(int i = 0; i < m; ++i) {
+			cin >> y;
+			y += v;
+		}
+		if(n <= m) {
+			cout << "Yes" << '\n';
+		}else{
+			cout << "No" << '\n';
 		}
 	}
-	LL S = 1 << 20, c = 0;
-	for(int i = 0; i < S; ++i) dp[i] = LLONG_MAX >> 1;
-	dp[0] = 0;
-	for(int s = 0; s < S; ++s) {
-		for(int i = 0; i < 20; ++i) {
-			if(!((s >> i) & 1)) {
-				c = 0;
-				for(int j = 0; j < 20; ++j) {
-					if((s >> j) & 1) {
-						c += cst[i + 1][j + 1];			
-					}
-				}
-				dp[s | 1 << i] = min(dp[s | 1 << i], dp[s] + c);
-			}
-		}
-	}
-	cout << dp[S - 1] << endl;
     return 0;
 }

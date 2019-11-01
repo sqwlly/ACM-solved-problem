@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: E.cc
+    > File Name: cf118D.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年09月16日 星期一 12时26分17秒
+    > Created Time: 2019年10月11日 星期五 11时37分15秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -33,46 +33,27 @@ void err(T a, Args... args)
     err(args...);
 }
 /****************************************************************************************************/
-const int N = 4E5+10;
-typedef long long LL;
-LL a[N],cnt[N], cst[21][21],dp[1 << 21];
-vector<int> pos[21];
+constexpr int mod = 1e8;
+int dp[111][111][2];
+
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n;
-	cin >> n;
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i];
-		pos[a[i]].emplace_back(i);
-	}
-	for(int i = 1; i <= 20; ++i) {
-		for(int j = 1; j <= 20; ++j) {
-			if(i == j) continue;
-			for(int k = 0; k < pos[i].size(); ++k) {
-				if(pos[j].size() == 0 || pos[j][0] > pos[i][k]) continue;
-				cst[i][j] += lower_bound(pos[j].begin(), pos[j].end(), pos[i][k]) - pos[j].begin();
+	int n1,n2,k1,k2;
+	cin >> n1 >> n2 >> k1 >> k2;
+	dp[0][0][0] = dp[0][0][1] = 1;
+	for(int i = 0; i <= n1; ++i) {
+		for(int j = 0; j <= n2; ++j) {
+			for(int k = 1; k <= k1 && i - k >= 0; ++k) {
+				(dp[i][j][0] += dp[i - k][j][1]) %= mod;
+			}
+			for(int k = 1; k <= k2 && j - k >= 0; ++k) {
+				(dp[i][j][1] += dp[i][j - k][0]) %= mod;
 			}
 		}
 	}
-	LL S = 1 << 20, c = 0;
-	for(int i = 0; i < S; ++i) dp[i] = LLONG_MAX >> 1;
-	dp[0] = 0;
-	for(int s = 0; s < S; ++s) {
-		for(int i = 0; i < 20; ++i) {
-			if(!((s >> i) & 1)) {
-				c = 0;
-				for(int j = 0; j < 20; ++j) {
-					if((s >> j) & 1) {
-						c += cst[i + 1][j + 1];			
-					}
-				}
-				dp[s | 1 << i] = min(dp[s | 1 << i], dp[s] + c);
-			}
-		}
-	}
-	cout << dp[S - 1] << endl;
+	cout << (dp[n1][n2][0] + dp[n1][n2][1]) % mod << '\n';
     return 0;
 }
