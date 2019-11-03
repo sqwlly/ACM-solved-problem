@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: poj2653.cc
+    > File Name: poj1410.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年11月02日 星期六 13时44分46秒
+    > Created Time: 2019年11月03日 星期日 16时02分42秒
  ************************************************************************/
 #include<iostream>
 #include<cstdio>
@@ -38,7 +38,7 @@ struct point
         return point(tx, ty) + b;
     }
     // 点坐标分别赋值到a和b
-    void split(double& a, double& b) {a = x, b = y; }
+    void split(double& a, double& b) { a = x, b = y; }
 };
 
 struct line
@@ -59,59 +59,69 @@ bool segxseg(line l1,line l2)
 		sgn((l2.s - l1.e) ^ (l1.s - l1.e)) * sgn((l2.e - l1.e) ^ (l1.s - l1.e)) <= 0 &&
 		sgn((l1.s - l2.e) ^ (l2.s - l2.e)) * sgn((l1.e - l2.e) ^ (l2.s - l2.e)) <= 0;
 }
-const int N = 1E5+10;
-void solve(const vector<line> &seg)
+
+bool PointOnSeg(point p,line l)
 {
-	//int N = seg.size();
-	bool down[N];
-	assert(seg.size() <= 100000);
-	for(int i = 0; i < seg.size(); ++i) {
-		down[i] = 0;
-		int cnt = 0;
-		for(int j = i + 1; j < seg.size(); ++j) {
-			assert(cnt < 20000);
-			if(segxseg(seg[i],seg[j])) {
-				down[i] = 1;
-				break;
-			}
-			cnt++;
-		}
-	}
-//	printf("Top sticks: ");
-	cout << "Top sticks: ";
-	vector<int> ans;
-	for(int i = 0; i < seg.size(); ++i) {
-		if(!down[i]) {
-			ans.push_back(i + 1);
-		}
-	}
-	for(int i = 0; i < ans.size(); ++i) {
-	/*	printf("%d", ans[i]);
-		if(i == ans.size() - 1) {
-			printf(".\n");
-		}else{
-			printf(", ");
-		}*/
-		cout << ans[i] << (i == ans.size() - 1 ? ".\n" : ", ");
-	}
+	return 
+		sgn((l.s - p) ^ (l.e - p)) == 0 && 
+		sgn((p.x - l.s.x) * (p.x - l.e.x)) <= 0 &&
+		sgn((p.y - l.s.y) * (p.y - l.e.y)) <= 0;
+}
+
+double area(vector<point> p)
+{
+	double ret = 0;
+	int n = p.size();
+	for(int i = 0; i < n; ++i) ret += (p[i] ^ p[(i + 1) % n]) / 2;
+	return fabs(ret);
+}
+
+// 点形成一个凸包，而且按逆时针排序(如是顺时针把里面的<0改为>0)
+// 点的编号 ：[0,n)
+// -1 ：点在凸多边形外
+// 0  ：点在凸多边形边界上
+// 1  ：点在凸多边形内
+int PointIntConvex(point a,vector<point> p)
+{
+	int n = p.size();
+	for(int i = 0; i < n; ++i) 
+		if(sgn((p[i] - a) ^ (p[(i + 1) % n] - a)) < 0)
+			return -1;
+		else if(PointOnSeg(a, line(p[i], p[(i + 1) % n])))
+			return 0;
+	return 1;
 }
 
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
-    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(false); cin.tie(0);
 	int n;
-	while(cin >> n && n) {
-//	while(scanf("%d",&n) && n) {
-		vector<line> seg;
-		point a,b;
-		for(int i = 0; i < n; ++i) {
-	//		scanf("%lf %lf %lf %lf",&a.x, &a.y, &b.x, &b.y);
-				cin >> a.x >> a.y >> b.x >> b.y;
-			seg.push_back(line(a,b));
+	cin >> n;
+	line seg;
+	point a,b;
+	for(int i = 0; i < n; ++i) {
+		vector<point> vtx;
+		vector<line> rec;
+		cin >> seg.s.x >> seg.s.y >> seg.e.x >> seg.e.y;
+		cin >> a.x >> a.y >> b.x >> b.y;
+		if(a.x > b.x) swap(a.x, b.x);
+		if(a.y < b.y) swap(a.y, b.y);
+		rec.push_back(line(a,point(a.x,b.y)));
+		rec.push_back(line(a,point(b.x,a.y)));
+		rec.push_back(line(b,point(b.x,a.y)));
+		rec.push_back(line(b,point(a.x,b.y)));
+		vtx.push_back(a); vtx.push_back(point(a.x, b.y));
+		vtx.push_back(b); vtx.push_back(point(b.x, a.y));
+		bool ok = 0;
+		for(int j = 0; j < 4; ++j) {
+			if(segxseg(rec[j], seg)) {
+				ok = 1;
+			}
 		}
-		solve(seg);
+		if(PointIntConvex(seg.s,vtx) > -1 || PointIntConvex(seg.e,vtx) > -1) ok = 1;
+		cout << (ok ? "T" : "F") << '\n';
 	}
-	return 0;
+    return 0;
 }

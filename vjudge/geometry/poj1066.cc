@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: poj2653.cc
+    > File Name: poj1066.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年11月02日 星期六 13时44分46秒
+    > Created Time: 2019年11月03日 星期日 12时39分12秒
  ************************************************************************/
 #include<iostream>
 #include<cstdio>
@@ -38,7 +38,7 @@ struct point
         return point(tx, ty) + b;
     }
     // 点坐标分别赋值到a和b
-    void split(double& a, double& b) {a = x, b = y; }
+    void split(double& a, double& b) { a = x, b = y; }
 };
 
 struct line
@@ -59,59 +59,47 @@ bool segxseg(line l1,line l2)
 		sgn((l2.s - l1.e) ^ (l1.s - l1.e)) * sgn((l2.e - l1.e) ^ (l1.s - l1.e)) <= 0 &&
 		sgn((l1.s - l2.e) ^ (l2.s - l2.e)) * sgn((l1.e - l2.e) ^ (l2.s - l2.e)) <= 0;
 }
-const int N = 1E5+10;
-void solve(const vector<line> &seg)
+
+int AC(line l, const vector<line> &seg)
 {
-	//int N = seg.size();
-	bool down[N];
-	assert(seg.size() <= 100000);
+	int cnt = 0;
 	for(int i = 0; i < seg.size(); ++i) {
-		down[i] = 0;
-		int cnt = 0;
-		for(int j = i + 1; j < seg.size(); ++j) {
-			assert(cnt < 20000);
-			if(segxseg(seg[i],seg[j])) {
-				down[i] = 1;
-				break;
-			}
+		if(l.s == seg[i].s || l.s == seg[i].e) continue;
+		if(segxseg(seg[i], l)) {
 			cnt++;
 		}
 	}
-//	printf("Top sticks: ");
-	cout << "Top sticks: ";
-	vector<int> ans;
+	return cnt;
+}
+
+void solve(const vector<line> &seg, point treasure)
+{
+	int ans = 1E9;
 	for(int i = 0; i < seg.size(); ++i) {
-		if(!down[i]) {
-			ans.push_back(i + 1);
-		}
+		line s = line(seg[i].s, treasure);
+		line e = line(seg[i].e, treasure);
+		ans = min(ans, min(AC(e,seg), AC(s,seg)));
 	}
-	for(int i = 0; i < ans.size(); ++i) {
-	/*	printf("%d", ans[i]);
-		if(i == ans.size() - 1) {
-			printf(".\n");
-		}else{
-			printf(", ");
-		}*/
-		cout << ans[i] << (i == ans.size() - 1 ? ".\n" : ", ");
-	}
+	if(!seg.size()) ans = 0;
+	cout << "Number of doors = " << ans + 1 << '\n'; 
 }
 
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
-    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(false); cin.tie(0);
 	int n;
-	while(cin >> n && n) {
-//	while(scanf("%d",&n) && n) {
-		vector<line> seg;
-		point a,b;
-		for(int i = 0; i < n; ++i) {
-	//		scanf("%lf %lf %lf %lf",&a.x, &a.y, &b.x, &b.y);
-				cin >> a.x >> a.y >> b.x >> b.y;
-			seg.push_back(line(a,b));
-		}
-		solve(seg);
+	cin >> n;
+	double a,b,c,d;
+	vector<line> seg;
+	for(int i = 0; i < n; ++i) {
+		cin >> a >> b >> c >> d;
+		seg.push_back(line(point(a,b),point(c,d)));
 	}
-	return 0;
+	point treasure;
+	cin >> a >> b;
+	treasure = point(a,b);
+	solve(seg, treasure);
+    return 0;
 }
