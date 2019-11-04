@@ -38,7 +38,7 @@ int a[N],ret[N];
 struct node{
 	int wait,id,ari;
 };
-dequeue<node> dq;
+deque<node> dq;
 
 int main() {
 #ifndef ONLINE_JUDGE
