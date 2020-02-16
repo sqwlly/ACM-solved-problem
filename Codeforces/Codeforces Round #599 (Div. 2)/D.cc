@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: E.cc
+    > File Name: D.cc
     > Author: sqwlly
     > Mail: sqw.lucky@gmail.com 
-    > Created Time: 2019年10月31日 星期四 22时12分50秒
+    > Created Time: 2019年11月12日 星期二 10时29分41秒
  ************************************************************************/
 
 #include<bits/stdc++.h>
@@ -34,70 +34,62 @@ void err(T a, Args... args)
 }
 /****************************************************************************************************/
 constexpr int N = 1E5+10;
-int ret[N];
-struct node{
-	int t,ic;
-	bool operator < (const node &u) const{
-		if(t == u.t) return ic < u.ic;
-		return t < u.t;
-	}
-}a[N];
-priority_queue<int,vector<int>,greater<int>> pq;
-queue<int> q;
+int f[N],deg[N];
+
+vector<int> E[N];
+
+int getf(int v) { if(f[v] == v) return v; return f[v] = getf(f[v]); }
+
+void mer(int u,int v)
+{
+	int p = getf(u);
+	int q = getf(v);
+	if(p != q) f[p] = q;
+}
+
+bool vis[N],complete[N];
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.in","r",stdin);
 #endif
     ios::sync_with_stdio(false); cin.tie(0);
-	int n,p;
-	cin >> n >> p;
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i].t;
-		a[i].ic = i;
+	int n,m;
+	cin >> n >> m;
+	for(int i = 1; i <= n; ++i) f[i] = i;
+	for(int i = 0,u,v; i < m; ++i) {
+		cin >> u >> v;
+		E[u].push_back(v);
+		E[v].push_back(u);
+		deg[u]++, deg[v]++;
 	}
-	long long T = 0;
-	int last = N;
-	sort(a + 1, a + n + 1);
-	for(int i = 1; i <= n;) {
-		if(!q.empty()) {
-			int cur = q.front();
-			q.pop();
-			ret[cur] = T + p;
-			T += p;
-			last = cur;
-		}else if(T >= a[i].t){
-			if(q.empty() && a[i].ic < last) {
-				q.push(a[i].ic);
-			}else if(!q.empty() && q.back() > a[i].ic && a[i].ic < last){
-				q.push(a[i].ic);
-			}else{
-				pq.push(a[i].ic);
+	int k = 0;
+	for(int i = 1; i <= n; ++i) {
+		if(complete[i]) continue;
+		for(auto j : E[i]) {
+			vis[j] = 1;
+		}
+		for(int j = 1; j <= n; ++j) {
+			if(vis[j] == 0 && i != j) {
+				complete[j] = 1;
+				mer(j,i);
+				k++;
 			}
-			i++;
-		}else{
-			if(!pq.empty()) {
-				int cur = pq.top();
-				pq.pop();
-				ret[cur] = T + p;
-				T += p;
-				last = cur;
-			}else{
-				T = a[i].t;
-				last = N + 1;
-			}
-
+		}
+		for(auto j : E[i]) {
+			vis[j] = 0;
 		}
 	}
-	while(!q.empty()) {
-		int cur = q.front(); q.pop();
-		ret[cur] = (T += p);
-	}
-	while(!pq.empty()) {
-		int cur = pq.top(); pq.pop();
-		ret[cur] = (T += p);
-	}
+	//dbg(k);
+	int cnt = 0;
 	for(int i = 1; i <= n; ++i) {
-		cout << ret[i] << " \n"[i == n];
+		for(auto j : E[i]) {
+			if(getf(j) == getf(i)) continue;
+			mer(j,i);
+			cnt++;
+			if(cnt == n - k - 1) break;
+		}
+		if(cnt == n - k - 1) break;
 	}
+	cout << cnt << '\n';
     return 0;
 }
